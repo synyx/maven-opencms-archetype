@@ -2,8 +2,7 @@
   xsi:schemaLocation="http://maven.apache.org/plugins/maven-archetype-plugin/archetype/1.0.0 http://maven.apache.org/xsd/archetype-1.0.0.xsd">
   <id>opencms-mysql-archetype</id>
   <resources>
-	<resource filtered="false">src/main/install/data.xml</resource>
-	<resource filtered="false">src/main/install/db-schema.xml</resource>
+	<resource filtered="false">src/main/install/dump.sql</resource>
 	<resource filtered="false">src/main/install/OpenCmsTemplate.zip</resource>
         <resource filtered="false">src/main/moduleconfig/explorertypes.xml</resource>
         <resource filtered="false">src/main/moduleconfig/resourcetypes.xml</resource>
