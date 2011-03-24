@@ -6,6 +6,9 @@
 	<resource filtered="false">src/main/install/OpenCmsTemplate.zip</resource>
         <resource filtered="false">src/main/moduleconfig/explorertypes.xml</resource>
         <resource filtered="false">src/main/moduleconfig/resourcetypes.xml</resource>
+        <resource filtered="false">src/main/webapp/WEB-INF/classes/log4j.properties</resource>
+        <resource filtered="false">src/main/config/opencms.properties</resource>
+        <resource filtered="false">src/main/webapp/vfs/empty.txt</resource>
   </resources>
 </archetype>
 
