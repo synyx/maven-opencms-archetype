@@ -1,11 +1,10 @@
 
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>org.synyx.opencms</groupId>
     <artifactId>opencms-mysql-archetype</artifactId>
-    <version>7.5.2.0-SNAPSHOT</version>
+    <version>7.5.2.1</version>
     <packaging>jar</packaging>
 
     <name>OpenCms Archetype</name>
@@ -111,7 +110,7 @@
                                 </goals>
                                 <configuration>
                                     <tasks>
-                                        <taskdef name="databaseToDdl" classname="org.apache.ddlutils.task.DatabaseToDdlTask"/>
+                                        <taskdef name="databaseToDdl" classname="org.apache.ddlutils.task.DatabaseToDdlTask" />
 
                                         <databaseToDdl modelName="opencmsmaven" databasetype="mysql5">
                                             <database url="jdbc:mysql://localhost:3306/opencmsmaven" driverClassName="org.gjt.mm.mysql.Driver" username="root" password="" />
