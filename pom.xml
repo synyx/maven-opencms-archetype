@@ -9,6 +9,73 @@
     <packaging>jar</packaging>
 
     <name>OpenCms Archetype</name>
+    <description>
+        Archetype for Maven OpenCms Plugin to be used with MySQL.
+    </description>
+
+    <url>http://synyx.org</url>
+    <issueManagement>
+        <system>Redmine</system>
+        <url>https://redmine.synyx.org/maven-opencms/</url>
+    </issueManagement>
+    
+    <scm>
+        <connection>scm:git:http://git.synyx.org/maven-opencms-archetype</connection>
+        <developerConnection>scm:git:ssh://git@git.synyx.org/maven-opencms-archetype</developerConnection>
+    </scm>
+
+    <licenses>
+        <license>
+            <name>GNU Lesser General Public License</name>
+            <url>http://www.fsf.org/licensing/licenses/lgpl.txt</url>
+            <distribution>repo</distribution>
+        </license>
+    </licenses>
+
+    <organization>
+        <name>Synyx GmbH &amp; Co KG</name>
+        <url>http://www.synyx.de</url>
+    </organization>
+    <developers>
+        <developer>
+            <id>hopf@synyx.de</id>
+            <name>Florian Hopf</name>
+            <email>hopf@synyx.de</email>
+            <roles>
+                <role>Developer</role>
+            </roles>
+            <organization>Synyx GmbH &amp; Co KG</organization>
+            <organizationUrl>http://www.synyx.de</organizationUrl>
+            <timezone>+1</timezone>
+        </developer>
+    </developers>
+
+    <distributionManagement>
+        <repository>
+            <id>releases.nexus.synyx.de</id>
+            <url>http://nexus.synyx.de/content/repositories/public-releases</url>
+        </repository>
+        <snapshotRepository>
+            <id>snapshots.nexus.synyx.de</id>
+            <url>http://nexus.synyx.de/content/repositories/public-snapshots</url>
+        </snapshotRepository>
+    </distributionManagement>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-release-plugin</artifactId>
+                <version>2.0</version>
+                <configuration>
+                    <preparationGoals>clean verify</preparationGoals>
+                    <scmCommentPrefix> * [maven-release-plugin] - </scmCommentPrefix>
+                    <autoVersionSubmodules>true</autoVersionSubmodules>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
+
 
     <profiles>
         <profile>
