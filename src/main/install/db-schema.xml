@@ -1,0 +1,553 @@
+<?xml version="1.0"?>
+<!DOCTYPE database SYSTEM "http://db.apache.org/torque/dtd/database">
+  <database name="opencms">
+    <table name="CMS_CONTENTS">
+      <column name="RESOURCE_ID" primaryKey="true" required="true" type="VARCHAR" size="36" autoIncrement="false"/>
+      <column name="FILE_CONTENT" primaryKey="false" required="true" type="LONGVARBINARY" size="2147483647" autoIncrement="false"/>
+      <column name="PUBLISH_TAG_FROM" primaryKey="true" required="true" type="INTEGER" size="10" default="0" autoIncrement="false"/>
+      <column name="PUBLISH_TAG_TO" primaryKey="false" required="false" type="INTEGER" size="10" autoIncrement="false"/>
+      <column name="ONLINE_FLAG" primaryKey="false" required="false" type="INTEGER" size="10" autoIncrement="false"/>
+      <unique name="CONTENTS_IDX">
+        <unique-column name="RESOURCE_ID"/>
+        <unique-column name="PUBLISH_TAG_TO"/>
+      </unique>
+      <index name="RESOURCE_ID_IDX">
+        <index-column name="RESOURCE_ID"/>
+      </index>
+      <index name="PUBLISH_TAG_FROM_IDX">
+        <index-column name="PUBLISH_TAG_FROM"/>
+      </index>
+      <index name="PUBLISH_TAG_TO_IDX">
+        <index-column name="PUBLISH_TAG_TO"/>
+      </index>
+      <index name="ONLINE_IDX">
+        <index-column name="RESOURCE_ID"/>
+        <index-column name="ONLINE_FLAG"/>
+      </index>
+    </table>
+    <table name="CMS_GROUPS">
+      <column name="GROUP_ID" primaryKey="true" required="true" type="VARCHAR" size="36" autoIncrement="false"/>
+      <column name="PARENT_GROUP_ID" primaryKey="false" required="true" type="VARCHAR" size="36" autoIncrement="false"/>
+      <column name="GROUP_NAME" primaryKey="false" required="true" type="VARCHAR" size="128" autoIncrement="false"/>
+      <column name="GROUP_DESCRIPTION" primaryKey="false" required="true" type="VARCHAR" size="255" autoIncrement="false"/>
+      <column name="GROUP_FLAGS" primaryKey="false" required="true" type="INTEGER" size="10" autoIncrement="false"/>
+      <column name="GROUP_OU" primaryKey="false" required="false" type="VARCHAR" size="128" autoIncrement="false"/>
+      <unique name="GROUP_FQN_IDX">
+        <unique-column name="GROUP_OU"/>
+        <unique-column name="GROUP_NAME"/>
+      </unique>
+      <index name="GROUP_NAME_IDX">
+        <index-column name="GROUP_NAME"/>
+      </index>
+      <index name="GROUP_OU_IDX">
+        <index-column name="GROUP_OU"/>
+      </index>
+      <index name="PARENT_GROUP_ID_IDX">
+        <index-column name="PARENT_GROUP_ID"/>
+      </index>
+    </table>
+    <table name="CMS_GROUPUSERS">
+      <column name="GROUP_ID" primaryKey="true" required="true" type="VARCHAR" size="36" autoIncrement="false"/>
+      <column name="USER_ID" primaryKey="true" required="true" type="VARCHAR" size="36" autoIncrement="false"/>
+      <column name="GROUPUSER_FLAGS" primaryKey="false" required="true" type="INTEGER" size="10" autoIncrement="false"/>
+      <index name="GROUP_ID_IDX">
+        <index-column name="GROUP_ID"/>
+      </index>
+      <index name="USER_ID_IDX">
+        <index-column name="USER_ID"/>
+      </index>
+    </table>
+    <table name="CMS_HISTORY_PRINCIPALS">
+      <column name="PRINCIPAL_ID" primaryKey="true" required="true" type="VARCHAR" size="36" autoIncrement="false"/>
+      <column name="PRINCIPAL_NAME" primaryKey="false" required="true" type="VARCHAR" size="128" autoIncrement="false"/>
+      <column name="PRINCIPAL_DESCRIPTION" primaryKey="false" required="true" type="VARCHAR" size="255" autoIncrement="false"/>
+      <column name="PRINCIPAL_OU" primaryKey="false" required="false" type="VARCHAR" size="128" autoIncrement="false"/>
+      <column name="PRINCIPAL_EMAIL" primaryKey="false" required="true" type="VARCHAR" size="128" autoIncrement="false"/>
+      <column name="PRINCIPAL_TYPE" primaryKey="false" required="true" type="VARCHAR" size="5" autoIncrement="false"/>
+      <column name="PRINCIPAL_USERDELETED" primaryKey="false" required="true" type="VARCHAR" size="36" autoIncrement="false"/>
+      <column name="PRINCIPAL_DATEDELETED" primaryKey="false" required="true" type="BIGINT" size="19" autoIncrement="false"/>
+    </table>
+    <table name="CMS_HISTORY_PROJECTRESOURCES">
+      <column name="PUBLISH_TAG" primaryKey="true" required="true" type="INTEGER" size="10" autoIncrement="false"/>
+      <column name="PROJECT_ID" primaryKey="true" required="true" type="VARCHAR" size="36" autoIncrement="false"/>
+      <column name="RESOURCE_PATH" primaryKey="true" required="true" type="LONGVARCHAR" size="65535" autoIncrement="false"/>
+    </table>
+    <table name="CMS_HISTORY_PROJECTS">
+      <column name="PROJECT_ID" primaryKey="false" required="true" type="VARCHAR" size="36" autoIncrement="false"/>
+      <column name="PROJECT_NAME" primaryKey="false" required="true" type="VARCHAR" size="255" autoIncrement="false"/>
+      <column name="PROJECT_DESCRIPTION" primaryKey="false" required="true" type="VARCHAR" size="255" autoIncrement="false"/>
+      <column name="PROJECT_TYPE" primaryKey="false" required="true" type="INTEGER" size="10" autoIncrement="false"/>
+      <column name="USER_ID" primaryKey="false" required="true" type="VARCHAR" size="36" autoIncrement="false"/>
+      <column name="GROUP_ID" primaryKey="false" required="true" type="VARCHAR" size="36" autoIncrement="false"/>
+      <column name="MANAGERGROUP_ID" primaryKey="false" required="true" type="VARCHAR" size="36" autoIncrement="false"/>
+      <column name="DATE_CREATED" primaryKey="false" required="true" type="BIGINT" size="19" autoIncrement="false"/>
+      <column name="PUBLISH_TAG" primaryKey="true" required="true" type="INTEGER" size="10" autoIncrement="false"/>
+      <column name="PROJECT_PUBLISHDATE" primaryKey="false" required="false" type="BIGINT" size="19" autoIncrement="false"/>
+      <column name="PROJECT_PUBLISHED_BY" primaryKey="false" required="true" type="VARCHAR" size="36" autoIncrement="false"/>
+      <column name="PROJECT_OU" primaryKey="false" required="true" type="VARCHAR" size="128" autoIncrement="false"/>
+    </table>
+    <table name="CMS_HISTORY_PROPERTIES">
+      <column name="STRUCTURE_ID" primaryKey="true" required="true" type="VARCHAR" size="36" autoIncrement="false"/>
+      <column name="PROPERTYDEF_ID" primaryKey="true" required="true" type="VARCHAR" size="36" autoIncrement="false"/>
+      <column name="PROPERTY_MAPPING_ID" primaryKey="false" required="true" type="VARCHAR" size="36" autoIncrement="false"/>
+      <column name="PROPERTY_MAPPING_TYPE" primaryKey="true" required="true" type="INTEGER" size="10" autoIncrement="false"/>
+      <column name="PROPERTY_VALUE" primaryKey="false" required="true" type="LONGVARCHAR" size="65535" autoIncrement="false"/>
+      <column name="PUBLISH_TAG" primaryKey="true" required="true" type="INTEGER" size="10" default="0" autoIncrement="false"/>
+      <index name="PROPERTYDEF_ID_IDX">
+        <index-column name="PROPERTYDEF_ID"/>
+      </index>
+      <index name="PROPERTY_MAPPING_ID_IDX">
+        <index-column name="PROPERTY_MAPPING_ID"/>
+      </index>
+      <index name="PROPERTYDEF_ID_MAPPING_ID_IDX">
+        <index-column name="PROPERTYDEF_ID"/>
+        <index-column name="PROPERTY_MAPPING_ID"/>
+      </index>
+      <index name="VERSION_IDX">
+        <index-column name="STRUCTURE_ID"/>
+        <index-column name="PUBLISH_TAG"/>
+      </index>
+    </table>
+    <table name="CMS_HISTORY_PROPERTYDEF">
+      <column name="PROPERTYDEF_ID" primaryKey="true" required="true" type="VARCHAR" size="36" autoIncrement="false"/>
+      <column name="PROPERTYDEF_NAME" primaryKey="false" required="true" type="VARCHAR" size="128" autoIncrement="false"/>
+      <column name="PROPERTYDEF_TYPE" primaryKey="false" required="true" type="INTEGER" size="10" autoIncrement="false"/>
+      <unique name="PROPERTYDEF_NAME_IDX">
+        <unique-column name="PROPERTYDEF_NAME"/>
+      </unique>
+    </table>
+    <table name="CMS_HISTORY_RESOURCES">
+      <column name="RESOURCE_ID" primaryKey="true" required="true" type="VARCHAR" size="36" autoIncrement="false"/>
+      <column name="RESOURCE_TYPE" primaryKey="false" required="true" type="INTEGER" size="10" autoIncrement="false"/>
+      <column name="RESOURCE_FLAGS" primaryKey="false" required="true" type="INTEGER" size="10" autoIncrement="false"/>
+      <column name="RESOURCE_STATE" primaryKey="false" required="true" type="SMALLINT" size="5" autoIncrement="false"/>
+      <column name="RESOURCE_SIZE" primaryKey="false" required="true" type="INTEGER" size="10" autoIncrement="false"/>
+      <column name="DATE_CONTENT" primaryKey="false" required="true" type="BIGINT" size="19" autoIncrement="false"/>
+      <column name="SIBLING_COUNT" primaryKey="false" required="true" type="INTEGER" size="10" autoIncrement="false"/>
+      <column name="DATE_CREATED" primaryKey="false" required="true" type="BIGINT" size="19" autoIncrement="false"/>
+      <column name="DATE_LASTMODIFIED" primaryKey="false" required="true" type="BIGINT" size="19" autoIncrement="false"/>
+      <column name="USER_CREATED" primaryKey="false" required="true" type="VARCHAR" size="36" autoIncrement="false"/>
+      <column name="USER_LASTMODIFIED" primaryKey="false" required="true" type="VARCHAR" size="36" autoIncrement="false"/>
+      <column name="PROJECT_LASTMODIFIED" primaryKey="false" required="false" type="VARCHAR" size="36" autoIncrement="false"/>
+      <column name="PUBLISH_TAG" primaryKey="true" required="true" type="INTEGER" size="10" autoIncrement="false"/>
+      <column name="RESOURCE_VERSION" primaryKey="false" required="true" type="INTEGER" size="10" autoIncrement="false"/>
+      <index name="RESOURCE_ID_IDX">
+        <index-column name="RESOURCE_ID"/>
+      </index>
+      <index name="PUBLISH_TAG_IDX">
+        <index-column name="PUBLISH_TAG"/>
+      </index>
+    </table>
+    <table name="CMS_HISTORY_STRUCTURE">
+      <column name="PUBLISH_TAG" primaryKey="true" required="true" type="INTEGER" size="10" autoIncrement="false"/>
+      <column name="VERSION" primaryKey="true" required="true" type="INTEGER" size="10" autoIncrement="false"/>
+      <column name="STRUCTURE_ID" primaryKey="true" required="true" type="VARCHAR" size="36" autoIncrement="false"/>
+      <column name="RESOURCE_ID" primaryKey="false" required="true" type="VARCHAR" size="36" autoIncrement="false"/>
+      <column name="PARENT_ID" primaryKey="false" required="true" type="VARCHAR" size="36" autoIncrement="false"/>
+      <column name="RESOURCE_PATH" primaryKey="false" required="true" type="LONGVARCHAR" size="65535" autoIncrement="false"/>
+      <column name="STRUCTURE_STATE" primaryKey="false" required="true" type="SMALLINT" size="5" autoIncrement="false"/>
+      <column name="DATE_RELEASED" primaryKey="false" required="true" type="BIGINT" size="19" autoIncrement="false"/>
+      <column name="DATE_EXPIRED" primaryKey="false" required="true" type="BIGINT" size="19" autoIncrement="false"/>
+      <column name="STRUCTURE_VERSION" primaryKey="false" required="true" type="INTEGER" size="10" autoIncrement="false"/>
+      <unique name="PRIMARY">
+        <unique-column name="STRUCTURE_ID"/>
+        <unique-column name="PUBLISH_TAG"/>
+        <unique-column name="VERSION"/>
+      </unique>
+      <index name="STRUCTURE_ID_IDX">
+        <index-column name="STRUCTURE_ID"/>
+      </index>
+      <index name="RESOURCE_PATH_IDX">
+        <index-column name="RESOURCE_PATH"/>
+      </index>
+      <index name="PUBLISH_TAG_IDX">
+        <index-column name="PUBLISH_TAG"/>
+      </index>
+      <index name="VERSION_IDX">
+        <index-column name="VERSION"/>
+      </index>
+    </table>
+    <table name="CMS_OFFLINE_ACCESSCONTROL">
+      <column name="RESOURCE_ID" primaryKey="true" required="true" type="VARCHAR" size="36" autoIncrement="false"/>
+      <column name="PRINCIPAL_ID" primaryKey="true" required="true" type="VARCHAR" size="36" autoIncrement="false"/>
+      <column name="ACCESS_ALLOWED" primaryKey="false" required="false" type="INTEGER" size="10" autoIncrement="false"/>
+      <column name="ACCESS_DENIED" primaryKey="false" required="false" type="INTEGER" size="10" autoIncrement="false"/>
+      <column name="ACCESS_FLAGS" primaryKey="false" required="false" type="INTEGER" size="10" autoIncrement="false"/>
+      <index name="PRINCIPAL_ID_IDX">
+        <index-column name="PRINCIPAL_ID"/>
+      </index>
+      <index name="RESOURCE_ID_IDX">
+        <index-column name="RESOURCE_ID"/>
+      </index>
+    </table>
+    <table name="CMS_OFFLINE_CONTENTS">
+      <column name="RESOURCE_ID" primaryKey="true" required="true" type="VARCHAR" size="36" autoIncrement="false"/>
+      <column name="FILE_CONTENT" primaryKey="false" required="true" type="LONGVARBINARY" size="2147483647" autoIncrement="false"/>
+    </table>
+    <table name="CMS_OFFLINE_PROPERTIES">
+      <column name="PROPERTY_ID" primaryKey="true" required="true" type="VARCHAR" size="36" autoIncrement="false"/>
+      <column name="PROPERTYDEF_ID" primaryKey="false" required="true" type="VARCHAR" size="36" autoIncrement="false"/>
+      <column name="PROPERTY_MAPPING_ID" primaryKey="false" required="true" type="VARCHAR" size="36" autoIncrement="false"/>
+      <column name="PROPERTY_MAPPING_TYPE" primaryKey="false" required="true" type="INTEGER" size="10" autoIncrement="false"/>
+      <column name="PROPERTY_VALUE" primaryKey="false" required="true" type="LONGVARCHAR" size="65535" autoIncrement="false"/>
+      <unique name="PROPERTYDEF_ID_MAPPING_ID_IDX">
+        <unique-column name="PROPERTYDEF_ID"/>
+        <unique-column name="PROPERTY_MAPPING_ID"/>
+      </unique>
+      <index name="PROPERTYDEF_ID_IDX">
+        <index-column name="PROPERTYDEF_ID"/>
+      </index>
+      <index name="PROPERTY_MAPPING_ID_IDX">
+        <index-column name="PROPERTY_MAPPING_ID"/>
+      </index>
+    </table>
+    <table name="CMS_OFFLINE_PROPERTYDEF">
+      <column name="PROPERTYDEF_ID" primaryKey="true" required="true" type="VARCHAR" size="36" autoIncrement="false"/>
+      <column name="PROPERTYDEF_NAME" primaryKey="false" required="true" type="VARCHAR" size="128" autoIncrement="false"/>
+      <column name="PROPERTYDEF_TYPE" primaryKey="false" required="true" type="INTEGER" size="10" autoIncrement="false"/>
+      <unique name="PROPERTYDEF_NAME_IDX">
+        <unique-column name="PROPERTYDEF_NAME"/>
+      </unique>
+    </table>
+    <table name="CMS_OFFLINE_RESOURCE_RELATIONS">
+      <column name="RELATION_SOURCE_ID" primaryKey="false" required="true" type="VARCHAR" size="36" autoIncrement="false"/>
+      <column name="RELATION_SOURCE_PATH" primaryKey="false" required="true" type="LONGVARCHAR" size="65535" autoIncrement="false"/>
+      <column name="RELATION_TARGET_ID" primaryKey="false" required="true" type="VARCHAR" size="36" autoIncrement="false"/>
+      <column name="RELATION_TARGET_PATH" primaryKey="false" required="true" type="LONGVARCHAR" size="65535" autoIncrement="false"/>
+      <column name="RELATION_TYPE" primaryKey="false" required="true" type="INTEGER" size="10" autoIncrement="false"/>
+      <index name="SOURCE_ID_IDX">
+        <index-column name="RELATION_SOURCE_ID"/>
+      </index>
+      <index name="SOURCE_PATH_IDX">
+        <index-column name="RELATION_SOURCE_PATH"/>
+      </index>
+      <index name="TARGET_ID_IDX">
+        <index-column name="RELATION_TARGET_ID"/>
+      </index>
+      <index name="TARGET_PATH_IDX">
+        <index-column name="RELATION_TARGET_PATH"/>
+      </index>
+      <index name="TYPE_IDX">
+        <index-column name="RELATION_TYPE"/>
+      </index>
+    </table>
+    <table name="CMS_OFFLINE_RESOURCES">
+      <column name="RESOURCE_ID" primaryKey="true" required="true" type="VARCHAR" size="36" autoIncrement="false"/>
+      <column name="RESOURCE_TYPE" primaryKey="false" required="true" type="INTEGER" size="10" autoIncrement="false"/>
+      <column name="RESOURCE_FLAGS" primaryKey="false" required="true" type="INTEGER" size="10" autoIncrement="false"/>
+      <column name="RESOURCE_STATE" primaryKey="false" required="true" type="SMALLINT" size="5" autoIncrement="false"/>
+      <column name="RESOURCE_SIZE" primaryKey="false" required="true" type="INTEGER" size="10" autoIncrement="false"/>
+      <column name="DATE_CONTENT" primaryKey="false" required="true" type="BIGINT" size="19" autoIncrement="false"/>
+      <column name="SIBLING_COUNT" primaryKey="false" required="true" type="INTEGER" size="10" autoIncrement="false"/>
+      <column name="DATE_CREATED" primaryKey="false" required="true" type="BIGINT" size="19" autoIncrement="false"/>
+      <column name="DATE_LASTMODIFIED" primaryKey="false" required="true" type="BIGINT" size="19" autoIncrement="false"/>
+      <column name="USER_CREATED" primaryKey="false" required="true" type="VARCHAR" size="36" autoIncrement="false"/>
+      <column name="USER_LASTMODIFIED" primaryKey="false" required="true" type="VARCHAR" size="36" autoIncrement="false"/>
+      <column name="PROJECT_LASTMODIFIED" primaryKey="false" required="false" type="VARCHAR" size="36" autoIncrement="false"/>
+      <column name="RESOURCE_VERSION" primaryKey="false" required="true" type="INTEGER" size="10" autoIncrement="false"/>
+      <index name="PROJECT_LASTMODIFIED_IDX">
+        <index-column name="PROJECT_LASTMODIFIED"/>
+      </index>
+      <index name="PROJECT_LASTMODIFIED_RESOURCE_SIZE_IDX">
+        <index-column name="PROJECT_LASTMODIFIED"/>
+        <index-column name="RESOURCE_SIZE"/>
+      </index>
+      <index name="RESOURCE_SIZE_IDX">
+        <index-column name="RESOURCE_SIZE"/>
+      </index>
+      <index name="DATE_LASTMODIFIED_IDX">
+        <index-column name="DATE_LASTMODIFIED"/>
+      </index>
+      <index name="RESOURCE_TYPE_IDX">
+        <index-column name="RESOURCE_TYPE"/>
+      </index>
+    </table>
+    <table name="CMS_OFFLINE_STRUCTURE">
+      <column name="STRUCTURE_ID" primaryKey="true" required="true" type="VARCHAR" size="36" autoIncrement="false"/>
+      <column name="RESOURCE_ID" primaryKey="false" required="true" type="VARCHAR" size="36" autoIncrement="false"/>
+      <column name="PARENT_ID" primaryKey="false" required="true" type="VARCHAR" size="36" autoIncrement="false"/>
+      <column name="RESOURCE_PATH" primaryKey="false" required="true" type="LONGVARCHAR" size="65535" autoIncrement="false"/>
+      <column name="STRUCTURE_STATE" primaryKey="false" required="true" type="SMALLINT" size="5" autoIncrement="false"/>
+      <column name="DATE_RELEASED" primaryKey="false" required="true" type="BIGINT" size="19" autoIncrement="false"/>
+      <column name="DATE_EXPIRED" primaryKey="false" required="true" type="BIGINT" size="19" autoIncrement="false"/>
+      <column name="STRUCTURE_VERSION" primaryKey="false" required="true" type="INTEGER" size="10" autoIncrement="false"/>
+      <index name="STRUCTURE_ID_RESOURCE_PATH_IDX">
+        <index-column name="STRUCTURE_ID"/>
+        <index-column name="RESOURCE_PATH"/>
+      </index>
+      <index name="RESOURCE_PATH_RESOURCE_ID_IDX">
+        <index-column name="RESOURCE_PATH"/>
+        <index-column name="RESOURCE_ID"/>
+      </index>
+      <index name="STRUCTURE_ID_RESOURCE_ID_IDX">
+        <index-column name="STRUCTURE_ID"/>
+        <index-column name="RESOURCE_ID"/>
+      </index>
+      <index name="STRUCTURE_STATE_IDX">
+        <index-column name="STRUCTURE_STATE"/>
+      </index>
+      <index name="PARENT_ID_IDX">
+        <index-column name="PARENT_ID"/>
+      </index>
+      <index name="RESOURCE_PATH_IDX">
+        <index-column name="RESOURCE_PATH"/>
+      </index>
+      <index name="RESOURCE_ID_IDX">
+        <index-column name="RESOURCE_ID"/>
+      </index>
+    </table>
+    <table name="CMS_ONLINE_ACCESSCONTROL">
+      <column name="RESOURCE_ID" primaryKey="true" required="true" type="VARCHAR" size="36" autoIncrement="false"/>
+      <column name="PRINCIPAL_ID" primaryKey="true" required="true" type="VARCHAR" size="36" autoIncrement="false"/>
+      <column name="ACCESS_ALLOWED" primaryKey="false" required="false" type="INTEGER" size="10" autoIncrement="false"/>
+      <column name="ACCESS_DENIED" primaryKey="false" required="false" type="INTEGER" size="10" autoIncrement="false"/>
+      <column name="ACCESS_FLAGS" primaryKey="false" required="false" type="INTEGER" size="10" autoIncrement="false"/>
+      <index name="PRINCIPAL_ID_IDX">
+        <index-column name="PRINCIPAL_ID"/>
+      </index>
+      <index name="RESOURCE_ID_IDX">
+        <index-column name="RESOURCE_ID"/>
+      </index>
+    </table>
+    <table name="CMS_ONLINE_PROPERTIES">
+      <column name="PROPERTY_ID" primaryKey="true" required="true" type="VARCHAR" size="36" autoIncrement="false"/>
+      <column name="PROPERTYDEF_ID" primaryKey="false" required="true" type="VARCHAR" size="36" autoIncrement="false"/>
+      <column name="PROPERTY_MAPPING_ID" primaryKey="false" required="true" type="VARCHAR" size="36" autoIncrement="false"/>
+      <column name="PROPERTY_MAPPING_TYPE" primaryKey="false" required="true" type="INTEGER" size="10" autoIncrement="false"/>
+      <column name="PROPERTY_VALUE" primaryKey="false" required="true" type="LONGVARCHAR" size="65535" autoIncrement="false"/>
+      <unique name="PROPERTYDEF_ID_MAPPING_ID_IDX">
+        <unique-column name="PROPERTYDEF_ID"/>
+        <unique-column name="PROPERTY_MAPPING_ID"/>
+      </unique>
+      <index name="PROPERTYDEF_ID_IDX">
+        <index-column name="PROPERTYDEF_ID"/>
+      </index>
+      <index name="PROPERTY_MAPPING_ID_IDX">
+        <index-column name="PROPERTY_MAPPING_ID"/>
+      </index>
+    </table>
+    <table name="CMS_ONLINE_PROPERTYDEF">
+      <column name="PROPERTYDEF_ID" primaryKey="true" required="true" type="VARCHAR" size="36" autoIncrement="false"/>
+      <column name="PROPERTYDEF_NAME" primaryKey="false" required="true" type="VARCHAR" size="128" autoIncrement="false"/>
+      <column name="PROPERTYDEF_TYPE" primaryKey="false" required="true" type="INTEGER" size="10" autoIncrement="false"/>
+      <unique name="PROPERTYDEF_NAME_IDX">
+        <unique-column name="PROPERTYDEF_NAME"/>
+      </unique>
+    </table>
+    <table name="CMS_ONLINE_RESOURCE_RELATIONS">
+      <column name="RELATION_SOURCE_ID" primaryKey="false" required="true" type="VARCHAR" size="36" autoIncrement="false"/>
+      <column name="RELATION_SOURCE_PATH" primaryKey="false" required="true" type="LONGVARCHAR" size="65535" autoIncrement="false"/>
+      <column name="RELATION_TARGET_ID" primaryKey="false" required="true" type="VARCHAR" size="36" autoIncrement="false"/>
+      <column name="RELATION_TARGET_PATH" primaryKey="false" required="true" type="LONGVARCHAR" size="65535" autoIncrement="false"/>
+      <column name="RELATION_TYPE" primaryKey="false" required="true" type="INTEGER" size="10" autoIncrement="false"/>
+      <index name="SOURCE_ID_IDX">
+        <index-column name="RELATION_SOURCE_ID"/>
+      </index>
+      <index name="SOURCE_PATH_IDX">
+        <index-column name="RELATION_SOURCE_PATH"/>
+      </index>
+      <index name="TARGET_ID_IDX">
+        <index-column name="RELATION_TARGET_ID"/>
+      </index>
+      <index name="TARGET_PATH_IDX">
+        <index-column name="RELATION_TARGET_PATH"/>
+      </index>
+      <index name="TYPE_IDX">
+        <index-column name="RELATION_TYPE"/>
+      </index>
+    </table>
+    <table name="CMS_ONLINE_RESOURCES">
+      <column name="RESOURCE_ID" primaryKey="true" required="true" type="VARCHAR" size="36" autoIncrement="false"/>
+      <column name="RESOURCE_TYPE" primaryKey="false" required="true" type="INTEGER" size="10" autoIncrement="false"/>
+      <column name="RESOURCE_FLAGS" primaryKey="false" required="true" type="INTEGER" size="10" autoIncrement="false"/>
+      <column name="RESOURCE_STATE" primaryKey="false" required="true" type="SMALLINT" size="5" autoIncrement="false"/>
+      <column name="RESOURCE_SIZE" primaryKey="false" required="true" type="INTEGER" size="10" autoIncrement="false"/>
+      <column name="DATE_CONTENT" primaryKey="false" required="true" type="BIGINT" size="19" autoIncrement="false"/>
+      <column name="SIBLING_COUNT" primaryKey="false" required="true" type="INTEGER" size="10" autoIncrement="false"/>
+      <column name="DATE_CREATED" primaryKey="false" required="true" type="BIGINT" size="19" autoIncrement="false"/>
+      <column name="DATE_LASTMODIFIED" primaryKey="false" required="true" type="BIGINT" size="19" autoIncrement="false"/>
+      <column name="USER_CREATED" primaryKey="false" required="true" type="VARCHAR" size="36" autoIncrement="false"/>
+      <column name="USER_LASTMODIFIED" primaryKey="false" required="true" type="VARCHAR" size="36" autoIncrement="false"/>
+      <column name="PROJECT_LASTMODIFIED" primaryKey="false" required="false" type="VARCHAR" size="36" autoIncrement="false"/>
+      <column name="RESOURCE_VERSION" primaryKey="false" required="true" type="INTEGER" size="10" autoIncrement="false"/>
+      <index name="PROJECT_LASTMODIFIED_IDX">
+        <index-column name="PROJECT_LASTMODIFIED"/>
+      </index>
+      <index name="PROJECT_LASTMODIFIED_RESOURCE_SIZE_IDX">
+        <index-column name="PROJECT_LASTMODIFIED"/>
+        <index-column name="RESOURCE_SIZE"/>
+      </index>
+      <index name="RESOURCE_SIZE_IDX">
+        <index-column name="RESOURCE_SIZE"/>
+      </index>
+      <index name="DATE_LASTMODIFIED_IDX">
+        <index-column name="DATE_LASTMODIFIED"/>
+      </index>
+      <index name="RESOURCE_TYPE_IDX">
+        <index-column name="RESOURCE_TYPE"/>
+      </index>
+    </table>
+    <table name="CMS_ONLINE_STRUCTURE">
+      <column name="STRUCTURE_ID" primaryKey="true" required="true" type="VARCHAR" size="36" autoIncrement="false"/>
+      <column name="RESOURCE_ID" primaryKey="false" required="true" type="VARCHAR" size="36" autoIncrement="false"/>
+      <column name="PARENT_ID" primaryKey="false" required="true" type="VARCHAR" size="36" autoIncrement="false"/>
+      <column name="RESOURCE_PATH" primaryKey="false" required="true" type="LONGVARCHAR" size="65535" autoIncrement="false"/>
+      <column name="STRUCTURE_STATE" primaryKey="false" required="true" type="SMALLINT" size="5" autoIncrement="false"/>
+      <column name="DATE_RELEASED" primaryKey="false" required="true" type="BIGINT" size="19" autoIncrement="false"/>
+      <column name="DATE_EXPIRED" primaryKey="false" required="true" type="BIGINT" size="19" autoIncrement="false"/>
+      <column name="STRUCTURE_VERSION" primaryKey="false" required="true" type="INTEGER" size="10" autoIncrement="false"/>
+      <index name="STRUCTURE_ID_RESOURCE_PATH_IDX">
+        <index-column name="STRUCTURE_ID"/>
+        <index-column name="RESOURCE_PATH"/>
+      </index>
+      <index name="RESOURCE_PATH_RESOURCE_ID_IDX">
+        <index-column name="RESOURCE_PATH"/>
+        <index-column name="RESOURCE_ID"/>
+      </index>
+      <index name="STRUCTURE_ID_RESOURCE_ID_IDX">
+        <index-column name="STRUCTURE_ID"/>
+        <index-column name="RESOURCE_ID"/>
+      </index>
+      <index name="STRUCTURE_STATE_IDX">
+        <index-column name="STRUCTURE_STATE"/>
+      </index>
+      <index name="PARENT_ID_IDX">
+        <index-column name="PARENT_ID"/>
+      </index>
+      <index name="RESOURCE_PATH_IDX">
+        <index-column name="RESOURCE_PATH"/>
+      </index>
+      <index name="RESOURCE_ID_IDX">
+        <index-column name="RESOURCE_ID"/>
+      </index>
+    </table>
+    <table name="CMS_PROJECTRESOURCES">
+      <column name="PROJECT_ID" primaryKey="true" required="true" type="VARCHAR" size="36" autoIncrement="false"/>
+      <column name="RESOURCE_PATH" primaryKey="true" required="true" type="LONGVARCHAR" size="65535" autoIncrement="false"/>
+      <index name="RESOURCE_PATH_IDX">
+        <index-column name="RESOURCE_PATH"/>
+      </index>
+    </table>
+    <table name="CMS_PROJECTS">
+      <column name="PROJECT_ID" primaryKey="true" required="true" type="VARCHAR" size="36" autoIncrement="false"/>
+      <column name="PROJECT_NAME" primaryKey="false" required="true" type="VARCHAR" size="200" autoIncrement="false"/>
+      <column name="PROJECT_DESCRIPTION" primaryKey="false" required="true" type="VARCHAR" size="255" autoIncrement="false"/>
+      <column name="PROJECT_FLAGS" primaryKey="false" required="true" type="INTEGER" size="10" autoIncrement="false"/>
+      <column name="PROJECT_TYPE" primaryKey="false" required="true" type="INTEGER" size="10" autoIncrement="false"/>
+      <column name="USER_ID" primaryKey="false" required="true" type="VARCHAR" size="36" autoIncrement="false"/>
+      <column name="GROUP_ID" primaryKey="false" required="true" type="VARCHAR" size="36" autoIncrement="false"/>
+      <column name="MANAGERGROUP_ID" primaryKey="false" required="true" type="VARCHAR" size="36" autoIncrement="false"/>
+      <column name="DATE_CREATED" primaryKey="false" required="true" type="BIGINT" size="19" autoIncrement="false"/>
+      <column name="PROJECT_OU" primaryKey="false" required="true" type="VARCHAR" size="128" autoIncrement="false"/>
+      <unique name="PROJECT_NAME_DATE_CREATED_IDX">
+        <unique-column name="PROJECT_OU"/>
+        <unique-column name="PROJECT_NAME"/>
+        <unique-column name="DATE_CREATED"/>
+      </unique>
+      <index name="PROJECT_FLAGS_IDX">
+        <index-column name="PROJECT_FLAGS"/>
+      </index>
+      <index name="PROJECT_GROUP_ID_IDX">
+        <index-column name="GROUP_ID"/>
+      </index>
+      <index name="PROJECT_MANAGERGROUP_ID_IDX">
+        <index-column name="MANAGERGROUP_ID"/>
+      </index>
+      <index name="PROJECT_OU_NAME_IDX">
+        <index-column name="PROJECT_OU"/>
+        <index-column name="PROJECT_NAME"/>
+      </index>
+      <index name="PROJECT_NAME_IDX">
+        <index-column name="PROJECT_NAME"/>
+      </index>
+      <index name="PROJECT_OU_IDX">
+        <index-column name="PROJECT_OU"/>
+      </index>
+      <index name="PROJECT_USER_ID_IDX">
+        <index-column name="USER_ID"/>
+      </index>
+    </table>
+    <table name="CMS_PUBLISH_HISTORY">
+      <column name="HISTORY_ID" primaryKey="true" required="true" type="VARCHAR" size="36" autoIncrement="false"/>
+      <column name="PUBLISH_TAG" primaryKey="true" required="true" type="INTEGER" size="10" autoIncrement="false"/>
+      <column name="STRUCTURE_ID" primaryKey="true" required="true" type="VARCHAR" size="36" autoIncrement="false"/>
+      <column name="RESOURCE_ID" primaryKey="false" required="true" type="VARCHAR" size="36" autoIncrement="false"/>
+      <column name="RESOURCE_PATH" primaryKey="true" required="true" type="LONGVARCHAR" size="65535" autoIncrement="false"/>
+      <column name="RESOURCE_STATE" primaryKey="false" required="true" type="INTEGER" size="10" autoIncrement="false"/>
+      <column name="RESOURCE_TYPE" primaryKey="false" required="true" type="INTEGER" size="10" autoIncrement="false"/>
+      <column name="SIBLING_COUNT" primaryKey="false" required="true" type="INTEGER" size="10" autoIncrement="false"/>
+      <index name="PUBLISH_TAG_IDX">
+        <index-column name="PUBLISH_TAG"/>
+      </index>
+      <index name="HISTORY_ID_IDX">
+        <index-column name="HISTORY_ID"/>
+      </index>
+    </table>
+    <table name="CMS_PUBLISH_JOBS">
+      <column name="HISTORY_ID" primaryKey="true" required="true" type="VARCHAR" size="36" autoIncrement="false"/>
+      <column name="PROJECT_ID" primaryKey="false" required="true" type="VARCHAR" size="36" autoIncrement="false"/>
+      <column name="PROJECT_NAME" primaryKey="false" required="true" type="VARCHAR" size="255" autoIncrement="false"/>
+      <column name="USER_ID" primaryKey="false" required="true" type="VARCHAR" size="36" autoIncrement="false"/>
+      <column name="PUBLISH_LOCALE" primaryKey="false" required="true" type="VARCHAR" size="16" autoIncrement="false"/>
+      <column name="PUBLISH_FLAGS" primaryKey="false" required="true" type="INTEGER" size="10" autoIncrement="false"/>
+      <column name="PUBLISH_LIST" primaryKey="false" required="false" type="LONGVARBINARY" size="2147483647" autoIncrement="false"/>
+      <column name="PUBLISH_REPORT" primaryKey="false" required="false" type="LONGVARBINARY" size="2147483647" autoIncrement="false"/>
+      <column name="RESOURCE_COUNT" primaryKey="false" required="true" type="INTEGER" size="10" autoIncrement="false"/>
+      <column name="ENQUEUE_TIME" primaryKey="false" required="true" type="BIGINT" size="19" autoIncrement="false"/>
+      <column name="START_TIME" primaryKey="false" required="true" type="BIGINT" size="19" autoIncrement="false"/>
+      <column name="FINISH_TIME" primaryKey="false" required="true" type="BIGINT" size="19" autoIncrement="false"/>
+    </table>
+    <table name="CMS_RESOURCE_LOCKS">
+      <column name="RESOURCE_PATH" primaryKey="false" required="true" type="LONGVARCHAR" size="65535" autoIncrement="false"/>
+      <column name="USER_ID" primaryKey="false" required="true" type="VARCHAR" size="36" autoIncrement="false"/>
+      <column name="PROJECT_ID" primaryKey="false" required="true" type="VARCHAR" size="36" autoIncrement="false"/>
+      <column name="LOCK_TYPE" primaryKey="false" required="true" type="INTEGER" size="10" autoIncrement="false"/>
+      <index name="RESOURCE_LOCKS_IDX">
+        <index-column name="RESOURCE_PATH"/>
+      </index>
+    </table>
+    <table name="CMS_STATICEXPORT_LINKS">
+      <column name="LINK_ID" primaryKey="true" required="true" type="VARCHAR" size="36" autoIncrement="false"/>
+      <column name="LINK_RFS_PATH" primaryKey="false" required="true" type="LONGVARCHAR" size="65535" autoIncrement="false"/>
+      <column name="LINK_TYPE" primaryKey="false" required="true" type="INTEGER" size="10" autoIncrement="false"/>
+      <column name="LINK_PARAMETER" primaryKey="false" required="false" type="LONGVARCHAR" size="65535" autoIncrement="false"/>
+      <column name="LINK_TIMESTAMP" primaryKey="false" required="false" type="BIGINT" size="19" autoIncrement="false"/>
+      <index name="LINK_RFS_PATH_IDX">
+        <index-column name="LINK_RFS_PATH"/>
+      </index>
+    </table>
+    <table name="CMS_USERDATA">
+      <column name="USER_ID" primaryKey="true" required="true" type="VARCHAR" size="36" autoIncrement="false"/>
+      <column name="DATA_KEY" primaryKey="true" required="true" type="VARCHAR" size="255" autoIncrement="false"/>
+      <column name="DATA_VALUE" primaryKey="false" required="false" type="LONGVARBINARY" size="65535" autoIncrement="false"/>
+      <column name="DATA_TYPE" primaryKey="false" required="true" type="VARCHAR" size="128" autoIncrement="false"/>
+      <index name="USERDATA_USER_IDX">
+        <index-column name="USER_ID"/>
+      </index>
+      <index name="USERDATA_DATA_IDX">
+        <index-column name="DATA_KEY"/>
+      </index>
+    </table>
+    <table name="CMS_USERS">
+      <column name="USER_ID" primaryKey="true" required="true" type="VARCHAR" size="36" autoIncrement="false"/>
+      <column name="USER_NAME" primaryKey="false" required="true" type="VARCHAR" size="128" autoIncrement="false"/>
+      <column name="USER_PASSWORD" primaryKey="false" required="true" type="VARCHAR" size="64" autoIncrement="false"/>
+      <column name="USER_FIRSTNAME" primaryKey="false" required="true" type="VARCHAR" size="128" autoIncrement="false"/>
+      <column name="USER_LASTNAME" primaryKey="false" required="true" type="VARCHAR" size="128" autoIncrement="false"/>
+      <column name="USER_EMAIL" primaryKey="false" required="true" type="VARCHAR" size="128" autoIncrement="false"/>
+      <column name="USER_LASTLOGIN" primaryKey="false" required="true" type="BIGINT" size="19" autoIncrement="false"/>
+      <column name="USER_FLAGS" primaryKey="false" required="true" type="INTEGER" size="10" autoIncrement="false"/>
+      <column name="USER_OU" primaryKey="false" required="false" type="VARCHAR" size="128" autoIncrement="false"/>
+      <column name="USER_DATECREATED" primaryKey="false" required="true" type="BIGINT" size="19" autoIncrement="false"/>
+      <unique name="USER_FQN_IDX">
+        <unique-column name="USER_OU"/>
+        <unique-column name="USER_NAME"/>
+      </unique>
+      <index name="USER_NAME_IDX">
+        <index-column name="USER_NAME"/>
+      </index>
+      <index name="USER_OU_IDX">
+        <index-column name="USER_OU"/>
+      </index>
+    </table>
+  </database>
