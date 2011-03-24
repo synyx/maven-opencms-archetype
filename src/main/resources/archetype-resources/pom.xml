@@ -7,7 +7,7 @@
     <packaging>war</packaging>
     <properties>
         <moduleversion>0.1</moduleversion>
-        <opencmsname>${opencms.modulename}</opencmsname>
+        <opencmsname>org.synyx.opencms</opencmsname>
         <webappBuildDir>target/web</webappBuildDir>
         <databaseuser>root</databaseuser>
         <databasepass />
