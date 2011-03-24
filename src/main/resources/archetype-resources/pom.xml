@@ -1,3 +1,4 @@
+
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <groupId>$groupId</groupId>
@@ -7,12 +8,14 @@
     <properties>
         <moduleversion>0.1</moduleversion>
         <opencmsname>${opencms.modulename}</opencmsname>
-        <webappBuildDir>${basedir}/target/web</webappBuildDir>
+        <webappBuildDir>target/web</webappBuildDir>
         <databaseuser>root</databaseuser>
         <databasepass />
         <databaseurl>jdbc:mysql://localhost:3306/opencmsmodule</databaseurl>
-        <opencmsversion>7.5.2.1</opencmsversion>
-   </properties>
+        <opencmsversion>7.5.2.3</opencmsversion>
+        <templatezip>src/main/install/OpenCmsTemplate.zip</templatezip>
+        <opencmsworkdir>OpenCmsWork/</opencmsworkdir>
+    </properties>
     <repositories>
         <repository>
             <id>nexus.synyx.public-releases</id>
@@ -92,7 +95,7 @@
         </plugins>
     </reporting>
     <build>
-       <plugins>
+        <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
@@ -104,7 +107,7 @@
                     <encoding>${project.build.sourceEncoding}</encoding>
                 </configuration>
             </plugin>
-           <plugin>
+            <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-surefire-plugin</artifactId>
                 <configuration>
@@ -165,8 +168,8 @@
                             <webappfolder>${project.basedir}/OpenCmsWork/WEB-INF/</webappfolder>
                             <author></author>
                             <authoremail></authoremail>
-			    <group></group>
-			    <nicename></nicename>
+                            <group></group>
+                            <nicename></nicename>
                             <moduleclass></moduleclass>
                             <resourcetypes>${project.basedir}/src/main/moduleconfig/resourcetypes.xml</resourcetypes>
                             <explorertypes>${project.basedir}/src/main/moduleconfig/explorertypes.xml</explorertypes>
@@ -189,7 +192,7 @@
                 </executions>
                 <dependencies>
                     <dependency>
-                        <groupId>org.synyx.org.opencms</groupId>
+                        <groupId>org.opencms</groupId>
                         <artifactId>opencms</artifactId>
                         <version>${opencmsversion}</version>
                         <type>jar</type>
@@ -240,34 +243,94 @@
                     <webappDirectory>${webappBuildDir}</webappDirectory>
                 </configuration>
             </plugin>
-       </plugins>
+        </plugins>
     </build>
     <profiles>
         <profile>
             <id>setup</id>
             <build>
                 <plugins>
+			<!-- delete template webapp if it's there -->
                     <plugin>
-                        <groupId>org.codehaus.mojo</groupId>
-                        <artifactId>sql-maven-plugin</artifactId>
-                        <version>1.4</version>
-
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-clean-plugin</artifactId>
+                        <configuration>
+                            <filesets>
+                                <fileset>
+                                    <directory>${opencmsworkdir}</directory>
+                                </fileset>
+                            </filesets>
+                        </configuration>
+                    </plugin>
+			<!-- insert dump to local database using the ddlutil ant task -->
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-antrun-plugin</artifactId>
                         <dependencies>
+                            <dependency>
+                                <groupId>org.apache.ddlutils</groupId>
+                                <artifactId>ddlutils</artifactId>
+                                <version>1.0</version>
+                            </dependency>
+                            <dependency>
+                                <groupId>log4j</groupId>
+                                <artifactId>log4j</artifactId>
+                                <version>1.2.9</version>
+                            </dependency>
                             <dependency>
                                 <groupId>mysql</groupId>
                                 <artifactId>mysql-connector-java</artifactId>
                                 <version>5.0.7</version>
                             </dependency>
                         </dependencies>
-			<!-- TODO insert ddl util goals -->        
-                   </plugin>
-               </plugins>
+                        <executions>
+                            <execution>
+                                <phase>process-resources</phase>
+                                <goals>
+                                    <goal>run</goal>
+                                </goals>
+                                <configuration>
+                                    <tasks>
+                                        <taskdef name="ddlToDatabase" classname="org.apache.ddlutils.task.DdlToDatabaseTask"/>
+
+                                        <ddlToDatabase>
+                                            <database url="${databaseurl}" driverClassName="org.gjt.mm.mysql.Driver" username="${databaseuser}" password="${databasepass}" />
+                                            <fileset dir="src/main/install/">
+                                                <include name="db-schema.xml" />
+                                            </fileset>
+                                            <writeSchemaToDatabase dodrops="true" alterdatabase="false"/>
+                                            <writeDataToDatabase datafile="src/main/install/data.xml" />
+                                        </ddlToDatabase>
+                                    </tasks>
+                                </configuration>
+                            </execution>
+                        </executions>
+                    </plugin>
+			<!-- unzip the template webapp -->
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-antrun-plugin</artifactId>
+                        <executions>
+                            <execution>
+                                <phase>process-resources</phase>
+                                <goals>
+                                    <goal>run</goal>
+                                </goals>
+                                <configuration>
+                                    <tasks>
+                                        <unzip src="${templatezip}" dest="." overwrite="false"/>
+                                    </tasks>
+                                </configuration>
+                            </execution>
+                        </executions>
+                    </plugin>
+                </plugins>
             </build>
         </profile>
-   </profiles>
+    </profiles>
     <dependencies>
-       <dependency>
-            <groupId>org.synyx.org.opencms</groupId>
+        <dependency>
+            <groupId>org.opencms</groupId>
             <artifactId>opencms</artifactId>
             <version>${opencmsversion}</version>
             <type>jar</type>

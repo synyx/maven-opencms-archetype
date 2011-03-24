@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <!DOCTYPE database SYSTEM "http://db.apache.org/torque/dtd/database">
-  <database name="opencms">
+  <database name="opencmsmaven">
     <table name="CMS_CONTENTS">
       <column name="RESOURCE_ID" primaryKey="true" required="true" type="VARCHAR" size="36" autoIncrement="false"/>
       <column name="FILE_CONTENT" primaryKey="false" required="true" type="LONGVARBINARY" size="2147483647" autoIncrement="false"/>
