@@ -1,8 +1,8 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
-    <groupId>${groupId}</groupId>
-    <version>${version}</version>
-    <artifactId>${artifactId}</artifactId>
+    <groupId>$groupId</groupId>
+    <version>$version</version>
+    <artifactId>$artifactId</artifactId>
     <packaging>war</packaging>
     <properties>
         <moduleversion>0.1</moduleversion>
@@ -10,7 +10,7 @@
         <webappBuildDir>${basedir}/target/web</webappBuildDir>
         <databaseuser>root</databaseuser>
         <databasepass />
-        <databaseurl>jdbc:mysql://localhost:3306/${databasename}</databaseurl>
+        <databaseurl>jdbc:mysql://localhost:3306/opencmsmodule</databaseurl>
         <opencmsversion>7.5.2.1</opencmsversion>
    </properties>
     <repositories>
