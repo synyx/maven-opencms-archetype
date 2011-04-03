@@ -148,7 +148,7 @@
             <plugin>
                 <groupId>com.synyx</groupId>
                 <artifactId>maven-opencms</artifactId>
-                <version>0.1.18</version>
+                <version>1.0</version>
                 <executions>
                     <execution>
                         <goals>
