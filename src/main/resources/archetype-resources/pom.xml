@@ -165,7 +165,12 @@
                             <exportversion>5</exportversion>
                             <opencmsversion>7.5.2</opencmsversion>
                             <version>${project.moduleversion}</version>
-                            <srcfolder>${project.basedir}/src/main/webapp/vfs/</srcfolder>
+                            <srcResources>
+                                <resource>
+                                    <directory>${project.basedir}/src/main/webapp/vfs/</directory>
+                                </resource>
+                            </srcResources>
+			    <srcfolder>${project.basedir}/src/main/webapp/vfs/</srcfolder>
                             <excludes>META-INF/,WEB-INF/,**/.svn/</excludes>
                             <distfolder>${project.basedir}/target/opencms-module/</distfolder>
                             <webappfolder>${project.basedir}/OpenCmsWork/WEB-INF/</webappfolder>
