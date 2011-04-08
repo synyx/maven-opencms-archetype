@@ -11,7 +11,7 @@
         <databaseuser>root</databaseuser>
         <databasepass />
         <databaseurl>jdbc:mysql://localhost:3306/opencmsmodule</databaseurl>
-        <opencmsversion>7.5.4.1</opencmsversion>
+        <opencmsversion>7.5.4.4</opencmsversion>
         <templatezip>src/main/install/OpenCmsTemplate.zip</templatezip>
         <opencmsworkdir>OpenCmsWork/</opencmsworkdir>
     </properties>
